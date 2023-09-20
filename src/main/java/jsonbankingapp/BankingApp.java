@@ -32,9 +32,11 @@ public class BankingApp {
     }
 
     private void initializeAccounts() {
+        // Load account data from JSON file
         File file = new File(JSON_FILE_PATH);
         if (file.exists()) {
             try {
+                // Deserialize JSON data into a map of accounts
                 accounts = objectMapper.readValue(file, new TypeReference<Map<String, Account>>() {});
             } catch (IOException e) {
                 e.printStackTrace();
@@ -46,9 +48,9 @@ public class BankingApp {
             System.err.println("JSON file not found at path: " + JSON_FILE_PATH);
         }
     }
-    
 
     private void saveAccountsToFile() {
+        // Save account data to JSON file
         try {
             objectMapper.writeValue(new File(JSON_FILE_PATH), accounts);
         } catch (IOException e) {
@@ -57,6 +59,7 @@ public class BankingApp {
     }
 
     private void createUI() {
+        // Create the graphical user interface
         frame = new JFrame("Banking App");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 300);
@@ -88,6 +91,7 @@ public class BankingApp {
     }
 
     private void showLoggedInUI() {
+        // Display the UI for logged-in users
         frame.getContentPane().removeAll();
         frame.repaint();
 
@@ -140,6 +144,7 @@ public class BankingApp {
     }
 
     private void login() {
+        // Perform user login
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
 
@@ -152,6 +157,7 @@ public class BankingApp {
     }
 
     private void changePassword() {
+        // Change user's password
         String newPassword = JOptionPane.showInputDialog(frame, "Enter new password:");
         if (newPassword != null && !newPassword.isEmpty()) {
             loggedInAccount.setPassword(newPassword);
@@ -161,6 +167,7 @@ public class BankingApp {
     }
 
     private void transfer() {
+        // Perform a money transfer between accounts
         String recipient = recipientField.getText();
         double transferAmount = Double.parseDouble(transferAmountField.getText());
 
@@ -177,6 +184,7 @@ public class BankingApp {
     }
 
     private void logout() {
+        // Perform user logout
         loggedInAccount = null;
         createUI();
     }
