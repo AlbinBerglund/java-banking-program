@@ -1,4 +1,5 @@
 package jsonbankingapp;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -19,33 +20,34 @@ public class BankingApp {
 
     private Map<String, Account> accounts;
     private JFrame frame;
-    private JTextField usernameField;
-    private JPasswordField passwordField;
+    private JTextField usernameInput;
+    private JPasswordField passwordInput;
     private JLabel balanceLabel;
-    private JTextField transferAmountField;
-    private JTextField recipientField;
+    private JTextField transferAmountInput;
+    private JTextField recipientInput;
     private Account loggedInAccount;
 
     public BankingApp() {
-        initializeAccounts();
+        loadingAccounts();
         createUI();
     }
 
-    private void initializeAccounts() {
+    private void loadingAccounts() {
         // Load account data from JSON file
         File file = new File(JSON_FILE_PATH);
         if (file.exists()) {
             try {
                 // Deserialize JSON data into a map of accounts
-                accounts = objectMapper.readValue(file, new TypeReference<Map<String, Account>>() {});
+                accounts = objectMapper.readValue(file, new TypeReference<Map<String, Account>>() {
+                });
             } catch (IOException e) {
                 e.printStackTrace();
                 accounts = new HashMap<>();
-                System.err.println("Error loading JSON file: " + e.getMessage());
+                System.err.println("stop stop stop stop stop: " + e.getMessage());
             }
         } else {
             accounts = new HashMap<>();
-            System.err.println("JSON file not found at path: " + JSON_FILE_PATH);
+            System.err.println("please load: " + JSON_FILE_PATH);
         }
     }
 
@@ -60,7 +62,7 @@ public class BankingApp {
 
     private void createUI() {
         // Create the graphical user interface
-        frame = new JFrame("Banking App");
+        frame = new JFrame("best banking website");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 300);
 
@@ -68,15 +70,15 @@ public class BankingApp {
         panel.setLayout(new GridLayout(5, 2));
 
         JLabel usernameLabel = new JLabel("Username:");
-        usernameField = new JTextField();
+        usernameInput = new JTextField();
         JLabel passwordLabel = new JLabel("Password:");
-        passwordField = new JPasswordField();
+        passwordInput = new JPasswordField();
         JButton loginButton = new JButton("Login");
 
         panel.add(usernameLabel);
-        panel.add(usernameField);
+        panel.add(usernameInput);
         panel.add(passwordLabel);
-        panel.add(passwordField);
+        panel.add(passwordInput);
         panel.add(loginButton);
 
         loginButton.addActionListener(new ActionListener() {
@@ -101,9 +103,9 @@ public class BankingApp {
         JLabel balanceTextLabel = new JLabel("Balance:");
         balanceLabel = new JLabel(String.valueOf(loggedInAccount.getBalance()));
         JLabel transferAmountLabel = new JLabel("Transfer Amount:");
-        transferAmountField = new JTextField();
+        transferAmountInput = new JTextField();
         JLabel recipientLabel = new JLabel("Recipient:");
-        recipientField = new JTextField();
+        recipientInput = new JTextField();
         JButton transferButton = new JButton("Transfer");
         JButton changePasswordButton = new JButton("Change Password");
         JButton logoutButton = new JButton("Logout");
@@ -111,9 +113,9 @@ public class BankingApp {
         loggedInPanel.add(balanceTextLabel);
         loggedInPanel.add(balanceLabel);
         loggedInPanel.add(transferAmountLabel);
-        loggedInPanel.add(transferAmountField);
+        loggedInPanel.add(transferAmountInput);
         loggedInPanel.add(recipientLabel);
-        loggedInPanel.add(recipientField);
+        loggedInPanel.add(recipientInput);
         loggedInPanel.add(transferButton);
         loggedInPanel.add(changePasswordButton);
         loggedInPanel.add(logoutButton);
@@ -145,14 +147,15 @@ public class BankingApp {
 
     private void login() {
         // Perform user login
-        String username = usernameField.getText();
-        String password = new String(passwordField.getPassword());
+        String username = usernameInput.getText();
+        String password = new String(passwordInput.getPassword());
 
         if (accounts.containsKey(username) && accounts.get(username).getPassword().equals(password)) {
             loggedInAccount = accounts.get(username);
             showLoggedInUI();
         } else {
-            JOptionPane.showMessageDialog(frame, "Invalid credentials", "Login Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(frame, "Wrong username or password", "Login Error", JOptionPane.ERROR_MESSAGE);
+            System.out.println(username + " " + password + " === " + accounts );
         }
     }
 
@@ -162,14 +165,15 @@ public class BankingApp {
         if (newPassword != null && !newPassword.isEmpty()) {
             loggedInAccount.setPassword(newPassword);
             saveAccountsToFile();
-            JOptionPane.showMessageDialog(frame, "Password changed successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(frame, "Password changed, hurray", "Success",
+                    JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
     private void transfer() {
         // Perform a money transfer between accounts
-        String recipient = recipientField.getText();
-        double transferAmount = Double.parseDouble(transferAmountField.getText());
+        String recipient = recipientInput.getText();
+        double transferAmount = Double.parseDouble(transferAmountInput.getText());
 
         if (accounts.containsKey(recipient) && transferAmount > 0 && loggedInAccount.getBalance() >= transferAmount) {
             Account recipientAccount = accounts.get(recipient);
@@ -177,7 +181,7 @@ public class BankingApp {
             recipientAccount.setBalance(recipientAccount.getBalance() + transferAmount);
             saveAccountsToFile();
             balanceLabel.setText(String.valueOf(loggedInAccount.getBalance()));
-            JOptionPane.showMessageDialog(frame, "Transfer successful", "Success", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(frame, "Transfer worked", "Success", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(frame, "Invalid transfer", "Transfer Error", JOptionPane.ERROR_MESSAGE);
         }
