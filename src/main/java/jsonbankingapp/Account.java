@@ -3,9 +3,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Account {
-    private String username;
-    private String password;
-    private double balance;
+    private String username;   // The username of the account holder
+    private String password;   // The password associated with the account
+    private double balance;    // The balance in the account
 
     // No-argument constructor (required for Jackson)
     public Account() {
@@ -22,26 +22,26 @@ public class Account {
     }
 
     public String getUsername() {
-        return username;
+        return username;  // Returns the username
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.username = username;  // Sets the username
     }
 
     public String getPassword() {
-        return password;
+        return password;  // Returns the password
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = password;  // Sets the password
     }
 
     public double getBalance() {
-        return balance;
+        return balance;  // Returns the balance
     }
 
     public void setBalance(double balance) {
-        this.balance = balance;
+        this.balance = balance;  // Sets the balance
     }
 }
