@@ -1,10 +1,10 @@
 {
-  "albin" : {
-    "password" : "www",
-    "balance" : 100.0
+  "user1" : {
+    "password" : "1234",
+    "balance" : 1400.0
   },
-  "donald" : {
-    "password" : "yes",
-    "balance" : 60000.0
+  "albin" : {
+    "password" : "hej2",
+    "balance" : 100.0
   }
 }
