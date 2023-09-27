@@ -20,25 +20,21 @@ public class BankingApp {
     private Map<String, Account> accounts;
     private JFrame frame;
     private JTextField usernameInput;
-    
-    
     private JPasswordField passwordInput;
     private JLabel balanceLabel;
     private JTextField transferAmountInput;
     private JTextField recipientInput;
     private Account loggedInAccount;
 
-    //InputStream JsonFilex = getClass().getClassLoader().getResourceAsStream("accounts.json");
-    //String result = IOUtils.toString(JsonFilex, StandardCharsets.UTF_8);
-    private static final String JsonFile = JOptionPane.showInputDialog("Give me the path");
-    //private static String JsonFile = "C:/Users/berglual/OneDrive - Arcada/Mathematical Programming 2023/Projects/Java/jsonbankingapp/src/main/resources/accounts.json";
-    private static final ObjectMapper objectMapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
+    public BankingApp() {
+        loadingAccounts();
+        createUI();
+    }
 
     private void loadingAccounts() {
         // Load account data from JSON file
- 
-        File fileJson = new File(JsonFile);
-        if (fileJson.exists()) {
+        File file = new File(JSON_FILE_PATH);
+        if (file.exists()) {
             try {
                 // Moves JSON data into a map of accounts
                 accounts = objectMapper.readValue(fileJson, new TypeReference<Map<String, Account>>() {
@@ -205,16 +201,12 @@ public class BankingApp {
         loggedInAccount = null;
         createUI();
     }
-        public BankingApp() {
-        loadingAccounts();
-        createUI();
-    }
-    //runs the code
-    public static void main(String[] args) 
-    {
-    	
-    	
-    	
-        new BankingApp();
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new BankingApp();
+            }
+        });
     }
 }
