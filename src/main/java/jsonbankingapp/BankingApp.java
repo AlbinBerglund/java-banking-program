@@ -30,7 +30,7 @@ public class BankingApp {
 
     //InputStream JsonFilex = getClass().getClassLoader().getResourceAsStream("accounts.json");
     //String result = IOUtils.toString(JsonFilex, StandardCharsets.UTF_8);
-    private static final String JsonFile = JOptionPane.showInputDialog("Give me the path");
+    private static String JsonFile = JOptionPane.showInputDialog("Give me the path");
     //private static String JsonFile = "C:/Users/berglual/OneDrive - Arcada/Mathematical Programming 2023/Projects/Java/jsonbankingapp/src/main/resources/accounts.json";
     private static final ObjectMapper objectMapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
 
